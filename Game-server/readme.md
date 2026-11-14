@@ -27,6 +27,31 @@ This template has been updated for:
 | `npm run build` | Create a production build in the `dist` folder |
 | `npm run dev-nolog` | Launch a development web server without sending anonymous data (see "About log.js" below) |
 | `npm run build-nolog` | Create a production build in the `dist` folder without sending anonymous data (see "About log.js" below) |
+| `npm run api` | Start the answer-evaluation API on port 3001 |
+
+## External answer event API
+
+Run `npm run api`. Your external frontend decides whether the answer is correct, then tells this game server:
+
+```http
+POST http://localhost:3001/api/game-events/answer
+Content-Type: application/json
+
+{"sessionId":"default","correct":true}
+```
+
+The response is `{"accepted":true,"sessionId":"default","correct":true}`. A `true` result places a tower; `false` sends an enemy wave. CORS is enabled for external frontends.
+
+The game polls `/api/game-events/next` for the matching session. The default session is `default`; set the game's URL to `?sessionId=your-session-id` to use a separate game session.
+
+When the Town Hall is destroyed, restart that game session with:
+
+```http
+POST http://localhost:3001/api/game-events/restart
+Content-Type: application/json
+
+{"sessionId":"default"}
+```
 
 ## Writing Code
 

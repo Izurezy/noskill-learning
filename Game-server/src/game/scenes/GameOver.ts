@@ -1,35 +1,45 @@
-import { Scene } from 'phaser';
+import {Scene} from "phaser";
+import {ExternalAnswerSystem} from "../systems/ExternalAnswerSystem.ts";
 
-export class GameOver extends Scene
-{
-    camera: Phaser.Cameras.Scene2D.Camera;
-    background: Phaser.GameObjects.Image;
-    gameover_text : Phaser.GameObjects.Text;
+export class GameOver extends Scene {
+    private backdrop!: Phaser.GameObjects.Rectangle;
+    private title!: Phaser.GameObjects.Text;
+    private message!: Phaser.GameObjects.Text;
 
-    constructor ()
-    {
-        super('GameOver');
+    constructor() {
+        super("GameOver");
     }
 
-    create ()
-    {
-        this.camera = this.cameras.main
-        this.camera.setBackgroundColor(0xff0000);
+    create() {
+        this.cameras.main.setBackgroundColor(0x190f17);
+        this.backdrop = this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x28131c, 0.96)
+            .setOrigin(0)
+            .setDepth(0);
+        this.title = this.add.text(0, 0, "GAME OVER", {
+            fontFamily: "Arial Black, Arial, sans-serif", fontSize: "52px", color: "#ff7b7b",
+            stroke: "#4a1010", strokeThickness: 8,
+        }).setOrigin(0.5).setDepth(1);
+        this.message = this.add.text(0, 0, "The Town Hall has fallen.", {
+            fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#ffffff", align: "center", lineSpacing: 8,
+        }).setOrigin(0.5).setDepth(1);
 
-        this.background = this.add.image(512, 384, 'background');
-        this.background.setAlpha(0.5);
+        this.layout();
+        this.scale.on("resize", this.layout, this);
+        this.events.once("shutdown", () => this.scale.off("resize", this.layout, this));
 
-        this.gameover_text = this.add.text(512, 384, 'Game Over', {
-            fontFamily: 'Arial Black', fontSize: 64, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        });
-        this.gameover_text.setOrigin(0.5);
+        new ExternalAnswerSystem(
+            this,
+            () => false,
+            () => undefined,
+            () => this.scene.start("MainGame"),
+        );
+    }
 
-        this.input.once('pointerdown', () => {
-
-            this.scene.start('MainMenu');
-
-        });
+    private layout() {
+        this.backdrop.setSize(this.scale.width, this.scale.height);
+        const centerX = this.scale.width / 2;
+        const centerY = this.scale.height / 2;
+        this.title.setPosition(centerX, centerY - 42);
+        this.message.setPosition(centerX, centerY + 36);
     }
 }
