@@ -5,160 +5,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>StudySpace | Study Session</title>
+    <title>noskill Learning</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
           rel="stylesheet">
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Custom CSS -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body.study-page {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 15% 20%, #DFE5FF 0, transparent 35%),
+                radial-gradient(circle at 85% 80%, #E8DFFF 0, transparent 35%),
+                #F5F5FF;
+        }
+
+        .study-brand {
+            font-size: 38px;
+            font-weight: 800;
+            color: #4056A1;
+            text-align: center;
+            padding: 25px 0;
+        }
+
+        .study-brand span {
+            color: #8065D9;
+            font-size: 46px;
+        }
+
+        .study-topic {
+            text-align: center;
+            margin: 25px 0 35px;
+        }
+
+        .study-topic h2 {
+            font-size: 26px;
+            color: #4056A1;
+        }
+
+        .study-topic p {
+            color: #526581;
+        }
+
+        .study-notes {
+            width: 100%;
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 35px rgba(87, 98, 165, 0.08);
+        }
+
+        .study-notes h3 {
+            color: #4056A1;
+            margin-bottom: 20px;
+        }
+
+        .study-notes li {
+            color: #637493;
+            background: #F6F6FF;
+            border: 1px solid #EEEEFA;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+
+        .video-wrapper {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* Left half of screen */
+        .study-content {
+            width: 50%;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .study-content {
+                width: 100%;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    </style>
 </head>
 
 <body class="study-page">
 
-    <!-- Navigation -->
-    <nav class="navbar custom-navbar">
-        <div class="container-fluid px-lg-5">
+    <!-- Website Logo -->
+    <div class="study-brand">
+        <span>✦</span> noskill Learning
+    </div>
 
-            <a class="navbar-brand brand-name" href="/">
-                <span class="brand-icon">✦</span> StudySpace
-            </a>
-
-            <a href="/" class="back-link">
-                ← New Topic
-            </a>
-
-        </div>
-    </nav>
-
-    <!-- Page Heading -->
-    <section class="study-header">
-        <div class="container-fluid px-lg-5">
-
-            <div class="study-badge">
-                ✨ YOUR STUDY SESSION
-            </div>
-
-            <h1>Let's learn something new.</h1>
-
-            <p class="study-subtitle">
-                Currently studying:
-                <span class="topic-highlight">{{ topic }}</span>
-            </p>
-
-        </div>
-    </section>
+    <!-- Currently Studying -->
+    <div class="study-topic">
+        <h2>Currently studying</h2>
+        <p>{{ topic }}</p>
+    </div>
 
     <!-- Main Content -->
-    <main class="container-fluid px-lg-5 pb-5">
+    <main class="study-content">
 
-        <div class="row g-4">
+        <!-- Video -->
+        <div class="ratio ratio-16x9 video-wrapper mb-4">
+            <iframe
+                src="https://www.youtube.com/embed/VIDEO_ID"
+                title="Learning Video"
+                allowfullscreen>
+            </iframe>
+        </div>
 
-            <!-- Video Section -->
-            <div class="col-lg-8">
+        <!-- Study Notes -->
+        <div class="study-notes">
 
-                <div class="content-card video-card">
+            <h3>Study Notes</h3>
 
-                    <div class="section-heading">
-                        <div>
-                            <span class="section-label">WATCH & LEARN</span>
-                            <h3>Learning Video</h3>
-                        </div>
-
-                        <span class="status-badge">▶ Video</span>
-                    </div>
-
-                    <div class="ratio ratio-16x9 video-wrapper">
-
-                        <iframe
-                            src="https://www.youtube.com/embed/VIDEO_ID"
-                            title="Learning Video"
-                            allowfullscreen>
-                        </iframe>
-
-                    </div>
-
-                    <div class="video-caption">
-                        <span>✦</span>
-                        Take your time and learn at your own pace.
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Notes Section -->
-            <div class="col-lg-4">
-
-                <div class="content-card notes-card">
-
-                    <div class="section-heading">
-                        <div>
-                            <span class="section-label">YOUR KNOWLEDGE SPACE</span>
-                            <h3>Study Notes</h3>
-                        </div>
-
-                        <span class="notes-icon">✎</span>
-                    </div>
-
-                    <p class="notes-description">
-                        Keep track of important information as you learn.
-                    </p>
-
-                    <div class="notes-list">
-
-                        <div class="note-item">
-                            <span class="note-number">01</span>
-                            <span>First note goes here</span>
-                        </div>
-
-                        <div class="note-item">
-                            <span class="note-number">02</span>
-                            <span>Second note goes here</span>
-                        </div>
-
-                        <div class="note-item">
-                            <span class="note-number">03</span>
-                            <span>Third note goes here</span>
-                        </div>
-
-                        <div class="note-item">
-                            <span class="note-number">04</span>
-                            <span>Fourth note goes here</span>
-                        </div>
-
-                        <div class="note-item">
-                            <span class="note-number">05</span>
-                            <span>Fifth note goes here</span>
-                        </div>
-
-                    </div>
-
-                    <div class="notes-tip">
-                        ✨ <span>Tip: Write down key ideas to remember what you learn.</span>
-                    </div>
-
-                </div>
-
-            </div>
+            <ul class="list-unstyled mb-0">
+                <li>First note goes here</li>
+                <li>Second note goes here</li>
+                <li>Third note goes here</li>
+                <li>Fourth note goes here</li>
+                <li>Fifth note goes here</li>
+            </ul>
 
         </div>
 
     </main>
-
-    <footer class="site-footer">
-        Keep learning. Keep growing. ✨
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

@@ -37,8 +37,10 @@ a {
     text-decoration: none;
 }
 
+
 /* =================================
    NAVIGATION
+   (Study Page)
 ================================= */
 
 .custom-navbar {
@@ -76,208 +78,117 @@ a {
     color: var(--primary-dark);
 }
 
+
 /* =================================
-   HOMEPAGE HERO
+   HOMEPAGE
+   Minimal Centered Design
 ================================= */
 
 .home-page {
+    min-height: 100vh;
     background:
-        radial-gradient(circle at 10% 15%, #DFE5FF 0, transparent 35%),
-        radial-gradient(circle at 90% 75%, #E8DFFF 0, transparent 35%),
+        radial-gradient(circle at 15% 20%, #DFE5FF 0, transparent 35%),
+        radial-gradient(circle at 85% 80%, #E8DFFF 0, transparent 35%),
         #F5F5FF;
 }
 
-.hero-section {
-    min-height: calc(100vh - 145px);
+.homepage-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+/* Website Logo and Name */
+
+.homepage-brand {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 65px 20px;
+    gap: 12px;
+    margin-bottom: 35px;
 }
 
-.hero-content {
+.homepage-brand h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(30px, 5vw, 46px);
+    font-weight: 800;
+    color: #4056A1;
+    letter-spacing: -1.5px;
+    margin: 0;
+}
+
+.homepage-brand .brand-icon {
+    font-size: 45px;
+    color: #8065D9;
+    margin-right: 0;
+}
+
+/* Search Card */
+
+.home-page .search-card {
     width: 100%;
-    max-width: 1100px;
-    margin: auto;
-    text-align: center;
+    max-width: 550px;
+    padding: 18px;
+    background: #FFFFFF;
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(94, 100, 180, 0.12);
 }
 
-.hero-badge,
-.study-badge {
-    display: inline-block;
-    background: #E8E7FF;
-    color: var(--primary);
-    border-radius: 50px;
-    padding: 10px 20px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    margin-bottom: 25px;
-}
+/* Search Input */
 
-.hero-content h1 {
-    font-size: clamp(38px, 5vw, 65px);
-    line-height: 1.2;
-    letter-spacing: -2px;
-    max-width: 850px;
-    margin: 0 auto 20px;
-}
-
-.gradient-text {
-    display: block;
-    background: linear-gradient(90deg, #6965D8, #A17BDF, #6499E8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.hero-description {
-    max-width: 650px;
-    margin: 0 auto 35px;
-    color: #7787A5;
-    font-size: 16px;
-    line-height: 1.9;
-}
-
-/* =================================
-   SEARCH CARD
-================================= */
-
-.search-card {
-    max-width: 760px;
-    margin: 0 auto 55px;
-    padding: 30px;
-    background: white;
-    border-radius: 22px;
-    box-shadow: 0 15px 50px rgba(94, 100, 180, 0.12);
-    text-align: left;
-}
-
-.search-card .form-label {
-    color: var(--heading);
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 12px;
-}
-
-.topic-input-group {
+.home-page .topic-input-group {
     display: flex;
     gap: 10px;
 }
 
-.topic-input-group .input-group-text {
-    background: #F1F0FF;
-    border: none;
-    color: var(--primary);
-    border-radius: 12px;
-    font-size: 20px;
-}
-
-.topic-input-group .form-control {
+.home-page .topic-input-group .form-control {
     min-width: 0;
-    border: 1px solid #E4E6F5;
-    border-radius: 12px;
-    padding: 15px;
-    font-family: inherit;
-    color: var(--text);
+    border: 1px solid #E2E5F3;
+    border-radius: 11px !important;
+    padding: 13px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #526581;
     box-shadow: none;
 }
 
-.topic-input-group .form-control::placeholder {
+.home-page .topic-input-group .form-control::placeholder {
     color: #A0ABC0;
 }
 
-.topic-input-group .form-control:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(105, 101, 216, 0.12);
+.home-page .topic-input-group .form-control:focus {
+    border-color: #8065D9;
+    box-shadow: 0 0 0 3px rgba(128, 101, 217, 0.12);
 }
 
-.search-btn {
+/* Enter Button */
+
+.home-page .search-btn {
     background: linear-gradient(120deg, #6965D8, #9275DF);
     border: none;
-    border-radius: 12px !important;
-    padding: 13px 22px;
+    border-radius: 11px !important;
+    padding: 12px 22px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
     font-weight: 600;
     white-space: nowrap;
-    transition: 0.3s;
 }
 
-.search-btn:hover {
+.home-page .search-btn:hover {
     background: linear-gradient(120deg, #514EBB, #7959CA);
-    transform: translateY(-2px);
 }
 
-.search-hint {
-    color: #99A4BC;
-    font-size: 12px;
-    margin-top: 15px;
-}
+/* Error Message */
 
-.error-message {
+.home-page .error-message {
     color: #D46B83;
     font-size: 13px;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* =================================
-   FEATURE CARDS
-================================= */
-
-.feature-row {
-    max-width: 950px;
-    margin: 0 auto;
-}
-
-.feature-card {
-    height: 100%;
-    padding: 25px 18px;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 18px;
-    box-shadow: 0 5px 25px rgba(85, 98, 170, 0.06);
-    transition: 0.3s;
-}
-
-.feature-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 30px rgba(85, 98, 170, 0.13);
-}
-
-.feature-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    margin: 0 auto 15px;
-}
-
-.purple-icon {
-    background: #EEEAFF;
-    color: #8968D5;
-}
-
-.blue-icon {
-    background: #E6EEFF;
-    color: #6389D9;
-}
-
-.teal-icon {
-    background: #E0F6F2;
-    color: #39A99D;
-}
-
-.feature-card h5 {
-    font-size: 15px;
-    margin-bottom: 9px;
-}
-
-.feature-card p {
-    font-size: 12px;
-    color: #8998B4;
-    margin: 0;
-    line-height: 1.7;
-}
 
 /* =================================
    STUDY PAGE
@@ -316,6 +227,7 @@ a {
     padding: 5px 13px;
     border-radius: 8px;
 }
+
 
 /* =================================
    CONTENT CARDS
@@ -359,6 +271,7 @@ a {
     font-weight: 600;
 }
 
+
 /* =================================
    VIDEO
 ================================= */
@@ -385,6 +298,7 @@ a {
     color: var(--primary);
     margin-right: 5px;
 }
+
 
 /* =================================
    NOTES
@@ -463,6 +377,7 @@ a {
     margin-top: 25px;
 }
 
+
 /* =================================
    FOOTER
 ================================= */
@@ -474,48 +389,44 @@ a {
     font-size: 12px;
 }
 
+
 /* =================================
    RESPONSIVE DESIGN
 ================================= */
 
 @media (max-width: 768px) {
 
-    .hero-section {
-        padding: 45px 15px;
+    /* Homepage */
+    .homepage-brand {
+        gap: 8px;
+        margin-bottom: 28px;
     }
 
-    .hero-content h1 {
-        letter-spacing: -1px;
+    .homepage-brand h1 {
+        font-size: 32px;
     }
 
-    .hero-description {
-        font-size: 14px;
+    .homepage-brand .brand-icon {
+        font-size: 38px;
     }
 
-    .search-card {
+    .home-page .search-card {
         padding: 20px;
     }
 
-    .topic-input-group {
+    .home-page .topic-input-group {
         flex-wrap: wrap;
     }
 
-    .topic-input-group .input-group-text {
-        display: none;
-    }
-
-    .topic-input-group .form-control {
+    .home-page .topic-input-group .form-control {
         flex: 1 1 100%;
     }
 
-    .topic-input-group .search-btn {
+    .home-page .topic-input-group .search-btn {
         width: 100%;
     }
 
-    .nav-tagline {
-        display: none;
-    }
-
+    /* Study Page */
     .study-header {
         padding: 35px 0 25px;
     }
@@ -527,25 +438,75 @@ a {
     .section-heading h3 {
         font-size: 18px;
     }
+
+    .nav-tagline {
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {
+
+    .homepage-brand h1 {
+        font-size: 29px;
+    }
+
+    .homepage-brand .brand-icon {
+        font-size: 34px;
+    }
 
     .brand-name {
         font-size: 20px;
     }
 
-    .hero-content h1 {
-        font-size: 36px;
+    .study-header h1 {
+        font-size: 28px;
     }
 
-    .hero-badge,
-    .study-badge {
-        font-size: 9px;
-        padding: 9px 13px;
+    .content-card {
+        padding: 18px;
     }
 
-    .feature-card {
-        padding: 20px 12px;
+    .section-heading h3 {
+        font-size: 18px;
     }
 }
+/* FORCE HOMEPAGE CONTENT TO CENTER */
+
+html, body.home-page {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body.home-page {
+    min-height: 100vh !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0 !important;
+}
+
+body.home-page .homepage-container {
+    width: 100%;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+body.home-page .homepage-brand {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 0 30px 0 !important;
+}
+
+body.home-page .search-card {
+    width: 90% !important;
+    max-width: 480px !important;
+    margin: 0 auto !important;
+}
+
