@@ -80,7 +80,7 @@ export class EnemySystem {
     }
 
     damage(enemy: Enemy, amount: number) {
-        if (!this.enemies.includes(enemy)) return;
+        if (!this.enemies.includes(enemy)) return false;
 
         enemy.health -= amount;
         this.drawEnemyHealth(enemy);
@@ -89,7 +89,12 @@ export class EnemySystem {
             if (enemy.sprite.active) enemy.sprite.setFillStyle(0xd94b4b);
         });
 
-        if (enemy.health <= 0) this.remove(enemy);
+        if (enemy.health <= 0) {
+            this.remove(enemy);
+            return true;
+        }
+
+        return false;
     }
 
     private spawn() {

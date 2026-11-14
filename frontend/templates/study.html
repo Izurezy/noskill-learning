@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,6 +98,33 @@
             font-size: 21px;
         }
 
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-header h3 {
+            margin-bottom: 0;
+        }
+
+        .quiz-timer {
+            color: #4056A1;
+            background: #EEF0FF;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 7px 11px;
+            white-space: nowrap;
+        }
+
+        .quiz-timer.is-expired {
+            color: #9e1c1c;
+            background: #FFE6E6;
+        }
+
         .study-notes li {
             color: #637493;
             background: #F6F6FF;
@@ -175,6 +201,17 @@
             background: #F6F6FF;
         }
 
+        .game-status {
+            margin: 0 0 14px;
+            color: #526581;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .game-status[data-state="error"] {
+            color: #b42318;
+        }
+
         @media (max-width: 768px) {
             .study-layout {
                 grid-template-columns: 1fr;
@@ -219,8 +256,8 @@
             <!-- Top Left: Video -->
             <div class="ratio ratio-16x9 video-wrapper">
                 <iframe
-                    src="https://www.youtube.com/embed/VIDEO_ID"
-                    title="Learning Video"
+                    src="https://www.youtube.com/embed/BIqWMFrzAfk"
+                    title="HTML learning video"
                     allowfullscreen>
                 </iframe>
             </div>
@@ -231,11 +268,9 @@
                 <h3>Study Notes</h3>
 
                 <ul class="list-unstyled mb-0">
-                    <li>First note goes here</li>
-                    <li>Second note goes here</li>
-                    <li>Third note goes here</li>
-                    <li>Fourth note goes here</li>
-                    <li>Fifth note goes here</li>
+                    <li><strong>CPU:</strong> The central processing unit executes program instructions and processes data.</li>
+                    <li><strong>Volatile memory:</strong> RAM only keeps data while the computer has power; its contents are lost when it turns off.</li>
+                    <li><strong>CPU cache:</strong> Small, high-speed memory that stores frequently used data so the CPU can access it faster.</li>
                 </ul>
 
             </div>
@@ -248,7 +283,10 @@
             <!-- Top Right: Quiz -->
             <div class="quiz-section">
 
-                <h3>Quick Quiz</h3>
+                <div class="quiz-header">
+                    <h3>Quick Quiz</h3>
+                    <span id="quiz-timer" class="quiz-timer" aria-label="Quiz time remaining">05:00</span>
+                </div>
 
                 <form id="quiz-form">
 
@@ -294,21 +332,21 @@
 
                     <!-- Question 3 -->
                     <div class="quiz-question">
-                        <p>3. What does HTML stand for?</p>
+                        <p>3. What does CPU stand for?</p>
 
                         <label class="quiz-option">
                             <input type="radio" name="q3" value="a">
-                            HyperText Markup Language
+                            Central Processing Unit
                         </label>
 
                         <label class="quiz-option">
                             <input type="radio" name="q3" value="b">
-                            High Transfer Machine Language
+                            Computer Processing Utility
                         </label>
 
                         <label class="quiz-option">
                             <input type="radio" name="q3" value="c">
-                            Hyper Transfer Management Language
+                            Central Program Unit
                         </label>
                     </div>
 
@@ -327,9 +365,12 @@
 
                 <h3>Mini Game</h3>
 
+                <p id="game-status" class="game-status" aria-live="polite">Connecting to game…</p>
+
                 <iframe
+                    id="game-frame"
                     class="game-frame"
-                    src="http://localhost:8080"
+                    src="{{ game_url }}"
                     title="Learning Mini Game"
                     allowfullscreen>
                 </iframe>
@@ -343,9 +384,110 @@
     <!-- Quiz JavaScript -->
     <script>
         const quizForm = document.getElementById("quiz-form");
+        const quizResult = document.getElementById("quiz-result");
+        const quizTimer = document.getElementById("quiz-timer");
+        const gameFrame = document.getElementById("game-frame");
+        const gameStatus = document.getElementById("game-status");
+        const gameOrigin = {{ game_origin | tojson }};
+        const gameApiUrl = {{ game_api_url | tojson }};
+        const gameSessionId = {{ game_session_id | tojson }};
+        const quizDurationSeconds = 5 * 60;
+        let secondsRemaining = quizDurationSeconds;
+        let quizExpired = false;
+        let quizSubmitted = false;
 
-        quizForm.addEventListener("submit", function(event) {
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+        }
+
+        function expireQuiz() {
+            quizExpired = true;
+            quizTimer.classList.add("is-expired");
+            quizForm.querySelectorAll("input, button").forEach((element) => {
+                element.disabled = true;
+            });
+            quizResult.textContent = "Time is up. Refresh the page to try again.";
+        }
+
+        function tickQuizTimer() {
+            quizTimer.textContent = formatTime(secondsRemaining);
+            if (secondsRemaining === 0) {
+                window.clearInterval(quizTimerId);
+                expireQuiz();
+                return;
+            }
+            secondsRemaining -= 1;
+        }
+
+        const quizTimerId = window.setInterval(tickQuizTimer, 1000);
+
+        const gameMessages = {
+            ready: "Game is ready.",
+            "tower-placed": "Tower placed — your answer strengthened the town.",
+            "tower-removed": "A tower was removed after an incorrect answer.",
+            "enemy-wave-spawned": "Enemy wave incoming!",
+            "enemy-defeated": "Enemy defeated!",
+            "game-over": "The Town Hall has fallen. Restart the game to try again.",
+            restart: "Game restarted.",
+        };
+
+        function messageForGameUpdate(message) {
+            if (message.type === "enemy-progress") {
+                const activeEnemies = Number(message.detail?.activeEnemies);
+                const progress = Number(message.detail?.progress);
+                if (Number.isFinite(activeEnemies) && Number.isFinite(progress)) {
+                    return `${activeEnemies} ${activeEnemies === 1 ? "enemy is" : "enemies are"} advancing — ${progress}% to the Town Hall.`;
+                }
+            }
+            return gameMessages[message.type] ?? "Game updated.";
+        }
+
+        function setGameStatus(message, isError = false) {
+            gameStatus.textContent = message;
+            gameStatus.dataset.state = isError ? "error" : "ok";
+        }
+
+        async function sendAnswerToGame(correct) {
+            const response = await fetch(`${gameApiUrl}/api/game-events/answer`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({sessionId: gameSessionId, correct}),
+            });
+
+            if (!response.ok) {
+                throw new Error("The game could not accept this answer.");
+            }
+        }
+
+        window.addEventListener("message", (event) => {
+            if (event.origin !== gameOrigin || event.source !== gameFrame.contentWindow) return;
+
+            const message = event.data;
+            if (
+                !message ||
+                message.channel !== "noskill-learning-game" ||
+                message.sessionId !== gameSessionId ||
+                typeof message.type !== "string"
+            ) return;
+
+            setGameStatus(messageForGameUpdate(message));
+        });
+
+        gameFrame.addEventListener("load", () => {
+            gameFrame.contentWindow.postMessage({
+                channel: "noskill-learning-game",
+                type: "request-status",
+                sessionId: gameSessionId,
+            }, gameOrigin);
+        });
+
+        quizForm.addEventListener("submit", async function(event) {
             event.preventDefault();
+            if (quizExpired || quizSubmitted) return;
+            quizSubmitted = true;
+            window.clearInterval(quizTimerId);
 
             const answers = {
                 q1: "b",
@@ -365,11 +507,29 @@
                 }
             }
 
-            document.getElementById("quiz-result").textContent =
-                "You scored " + score + " out of 3!";
+            const submitButton = quizForm.querySelector("button[type='submit']");
+            submitButton.disabled = true;
+
+            const results = await Promise.allSettled(
+                Object.entries(answers).map(([question, answer]) => {
+                    const selected = document.querySelector(`input[name="${question}"]:checked`);
+                    return sendAnswerToGame(Boolean(selected && selected.value === answer));
+                })
+            );
+
+            quizForm.querySelectorAll("input").forEach((input) => {
+                input.disabled = true;
+            });
+            submitButton.textContent = "Quiz Submitted";
+            const failures = results.filter((result) => result.status === "rejected").length;
+            quizResult.textContent = `You scored ${score} out of 3!`;
+            if (failures > 0) {
+                setGameStatus("The quiz was scored, but the game connection is unavailable.", true);
+            } else {
+                setGameStatus("Quiz results sent to the game.");
+            }
         });
     </script>
 
 </body>
 </html>
-```

@@ -38,7 +38,7 @@ export class BuildingPlacementSystem {
         magic: [3],
     };
 
-    constructor(scene: Phaser.Scene, grid: GridSystem) {
+    constructor(scene: Phaser.Scene, grid: GridSystem, private readonly onEnemyDefeated: () => void) {
         this.scene = scene;
         this.grid = grid;
         this.mapGraphics = scene.add.graphics().setDepth(1);
@@ -128,6 +128,16 @@ export class BuildingPlacementSystem {
         return this.placeTower(cell.row, cell.col, "archer");
     }
 
+    /** Removes the newest reward tower after a wrong external answer. */
+    removeMostRecentTower() {
+        const placedTower = this.placedTowers.pop();
+        if (!placedTower) return false;
+
+        this.occupiedCells.delete(`${placedTower.row},${placedTower.col}`);
+        placedTower.tower.destroy();
+        return true;
+    }
+
     /** Draw the authored map using the same cell bounds as clicks and towers. */
     private layoutMap() {
         this.mapGraphics.clear();
@@ -202,7 +212,7 @@ export class BuildingPlacementSystem {
             duration: 180,
             onComplete: () => {
                 projectile.destroy();
-                enemies.damage(target, 1);
+                if (enemies.damage(target, 1)) this.onEnemyDefeated();
             },
         });
     }

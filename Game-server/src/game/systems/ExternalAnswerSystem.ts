@@ -1,7 +1,10 @@
-const sessionId = new URLSearchParams(window.location.search).get("sessionId")
-    ?? import.meta.env.VITE_GAME_SESSION_ID
-    ?? "default";
-const eventsEndpoint = "/api/game-events/next";
+import {gameSessionId} from "./GameFrameBridge.ts";
+
+const apiOrigin = new URLSearchParams(window.location.search).get("apiUrl")
+    ?? import.meta.env.VITE_GAME_API_URL;
+const eventsEndpoint = apiOrigin
+    ? `${apiOrigin.replace(/\/$/, "")}/api/game-events/next`
+    : "/api/game-events/next";
 
 /** Receives answer outcomes that an external frontend has submitted to the API. */
 export class ExternalAnswerSystem {
@@ -21,7 +24,7 @@ export class ExternalAnswerSystem {
         this.requestInFlight = true;
 
         try {
-            const response = await fetch(`${eventsEndpoint}?sessionId=${encodeURIComponent(sessionId)}`);
+            const response = await fetch(`${eventsEndpoint}?sessionId=${encodeURIComponent(gameSessionId)}`);
             const result: unknown = await response.json();
             if (!response.ok || typeof result !== "object" || result === null || !("event" in result)) return;
 
