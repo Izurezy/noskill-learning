@@ -1,4 +1,4 @@
-# StudySpace frontend
+# No-skill-learning frontend
 
 This is a small Flask web app. It does not need the Node/Phaser project in the sibling `Game-server` directory.
 
