@@ -1,0 +1,172 @@
+
+/* ==========================================
+   SECTION 1: MAIN COIN SYSTEM CONTAINER
+
+   Controls the overall appearance of the
+   coin system, including background, spacing,
+   text color, and font.
+========================================== */
+
+.coin-system {
+  background: #151b2b;
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  font-family: Arial, sans-serif;
+}
+
+
+/* ==========================================
+   SECTION 2: COIN WALLET
+
+   Displays the user's current coin balance.
+========================================== */
+
+.wallet {
+  background: #253653;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* SECTION 2A: COIN BALANCE DISPLAY */
+
+.wallet h1 {
+  color: #facc15;
+  font-size: 40px;
+  margin: 10px 0;
+}
+
+
+/* ==========================================
+   SECTION 3: REWARD AND SHOP SECTIONS
+
+   Styles the question rewards, study session,
+   and structure shop.
+========================================== */
+
+.study-reward,
+.study-session,
+.shop {
+  background: #202b40;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+
+/* ==========================================
+   SECTION 4: STUDY SESSION TIMER
+
+   Highlights the countdown and makes the
+   study session easy to identify.
+========================================== */
+
+.study-session {
+  text-align: center;
+  border: 1px solid #475569;
+}
+
+.study-session h1 {
+  color: #facc15;
+  font-size: 42px;
+  margin: 15px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.study-session p {
+  color: #cbd5e1;
+}
+
+
+/* ==========================================
+   SECTION 5: SHOP ITEM LAYOUT
+
+   Uses Flexbox to position tower information
+   and purchase buttons.
+========================================== */
+
+.shop-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #475569;
+  padding: 12px 0;
+}
+
+.shop-item:last-child {
+  border-bottom: none;
+}
+
+
+/* ==========================================
+   SECTION 6: BUTTON STYLING
+
+   Styles buttons throughout the coin system.
+========================================== */
+
+button {
+  background: #eab308;
+  color: #111827;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+/* SECTION 6A: BUTTON HOVER EFFECT */
+
+button:hover:not(:disabled) {
+  background: #facc15;
+}
+
+/* SECTION 6B: DISABLED BUTTONS */
+
+button:disabled {
+  background: #64748b;
+  color: #cbd5e1;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+
+/* ==========================================
+   SECTION 7: TRANSACTION MESSAGES
+
+   Displays notifications when users earn
+   coins or purchase structures.
+========================================== */
+
+.message {
+  color: #4ade80;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+}
+
+
+/* ==========================================
+   SECTION 8: RESPONSIVE DESIGN
+
+   Adjusts the coin system for smaller screens
+   such as phones and tablets.
+========================================== */
+
+@media (max-width: 600px) {
+  .coin-system {
+    padding: 15px;
+  }
+
+  .shop-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .study-session h1 {
+    font-size: 34px;
+  }
+}
