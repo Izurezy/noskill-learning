@@ -1,0 +1,114 @@
+
+/* ==========================================
+   SECTION 1: MAIN COIN SYSTEM CONTAINER
+
+   Controls the overall appearance of the
+   coin system, including background, spacing,
+   text color, and font.
+========================================== */
+
+.coin-system {
+  background: #151b2b;
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  font-family: Arial, sans-serif;
+}
+
+
+/* ==========================================
+   SECTION 2: COIN WALLET
+
+   Displays the user's current coin balance.
+   Uses a centered layout to make the balance
+   easy to identify.
+========================================== */
+
+.wallet {
+  background: #253653;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+/* SECTION 2A: COIN BALANCE DISPLAY */
+
+.wallet h1 {
+  color: #facc15;
+  font-size: 40px;
+}
+
+
+/* ==========================================
+   SECTION 3: STUDY REWARDS AND TOWER SHOP
+
+   Styles the study reward area and the
+   structure shop as separate sections.
+========================================== */
+
+.study-reward,
+.shop {
+  background: #202b40;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+
+/* ==========================================
+   SECTION 4: SHOP ITEM LAYOUT
+
+   Uses Flexbox to position the tower
+   information on the left and the purchase
+   button on the right.
+========================================== */
+
+.shop-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #475569;
+  padding: 12px 0;
+}
+
+
+/* ==========================================
+   SECTION 5: BUTTON STYLING
+
+   Styles buttons throughout the coin system,
+   including study rewards and tower purchases.
+========================================== */
+
+button {
+  background: #eab308;
+  color: #111827;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+/* SECTION 5A: BUTTON HOVER EFFECT */
+
+button:hover {
+  background: #facc15;
+}
+
+
+/* ==========================================
+   SECTION 6: TRANSACTION MESSAGES
+
+   Displays notifications when users earn
+   coins, purchase structures, or encounter
+   an insufficient coin balance.
+========================================== */
+
+.message {
+  color: #4ade80;
+  font-weight: bold;
+  text-align: center;
+}
