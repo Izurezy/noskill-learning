@@ -10,8 +10,6 @@ app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 
-
-
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -19,8 +17,6 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
-
-
 # Homepage
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -36,8 +32,6 @@ def home():
         return redirect(url_for("study", topic=topic))
 
     return render_template("index.html")
-
-
 # Study page
 @app.route("/study/<topic>")
 def study(topic):
